@@ -18,51 +18,35 @@
 
 	<center><div class=headerLarge>Alternate ways to solving puzzles</div>
        	    <div class=headerSmall> stop rushing start learning</div>
-       	    <div class=headerDate>1/9/2016</div>
+       	    <div class=headerDate>28/10/2016</div>
     </center>
     <br>
     <div class=blogContent><p><img src="../files/114e2c42-844c-41eb-8e48-697ef0f9c9bf.jpg" alt="title"></p>
 <p><a href="https://projecteuler.net/">Project Euler</a> is a website that hosts programming/math challenge that get progressively harder as you move from problem to problem. The most common way of solving these problems is to pick your favorite language, solve the problem, and then move on to the next problem; quickly trying to get to those wonderful virtual trophies.</p>
 <p>But looking at the first problem:</p>
-<p>If we list all the natural numbers below 10 that are multiples of 3 or 5, we get 3, 5, 6 and 9. The sum of these multiples is 23.</p>
-<p>Find the sum of all the multiples of 3 or 5 below 1000.
-If you solved this with your favorite language of choice, what have you really learned? And what exactly is the big rush to move on to the next problem anyways?</p>
+<pre><code>If we list all the natural numbers below 10 that are multiples of 3 or 5, we get 3, 5, 6 and 9. The sum of these multiples is 23.
+
+Find the sum of all the multiples of 3 or 5 below 1000.
+</code></pre><p>If you solved this with your favorite language of choice, what have you really learned? And what exactly is the big rush to move on to the next problem anyways?</p>
 <p>The Alternative</p>
 <p>Alternatively, you could find other ways to solve the problem; while it still helps to solve the problem in a traditional way first (or not); don&#39;t stop after your initial solving attempt.</p>
 <ul>
-<li>Write a parser to solve the problem and learn how to write a parser.</li>
-<li>Write a custom Gui to solve the problem and work on UI design; or learn how D3.js works.</li>
-<li>Use the pattern to create a design and work on UI design; or learn how D3.js works.</li>
+<li>Write a <a href="https://github.com/analogpixel/euler/blob/master/1/parser.txt">parser</a> to solve the problem and learn how to write a parser.</li>
+<li>Write a <a href="https://github.com/analogpixel/euler/blob/master/1/circleDrag.html">custom Gui</a> to solve the problem and work on UI design; or learn how D3.js works.</li>
 <li>Design a physical interface to solve the problem and work on mechanical design along with interacting a physical design with a computer.</li>
 <li>What does a drum rhythm with different beats on multiples of 3, 5, and both send like? While it doesn&#39;t solve the problem, it does spring board you off into other directions of things to explore.</li>
 <li>Learn verilog and create a circuit to solve the problem.
 Attack the problem with this mindset; You are working for a company, and this &quot;problem&quot; is the core work the factory workers need to do every day. Your job is to design an interface to allow them to easily solve this type of problem and all you have to work with is a touch screen and a cpu (the rest needs to be designed by you.)</li>
 </ul>
-<p>Not only does solving the problem in this way give you a much deeper understanding of the problem, It also pushes you to learn new technologies and ,somewhat, practical uses for applying these new technologies.</p>
-<h2 id="the-parser">The Parser</h2>
-<p>I used <a href="http://pegjs.org/">http://pegjs.org/</a> to create the parser for my simple language, it has an online tester, and was pretty easy to get started with. My language definition ended up looking like this:</p>
-<pre><code class="lang-python">start
-  = goals+
-
-goals
-  = left:multset &quot; I &quot; right:goals &quot;\n&quot;* { return left.intersect(right); }
-  / left:multset &quot; U &quot; right:goals &quot;\n&quot;* { return left.union(right);  }
-  / multset
-
-multset
-  = &quot;M:&quot; a:int &quot;:&quot; b:int &quot;:&quot; c:int { return multSet(a,b,c); }
-
-int
-  = digits:[0-9]+ { return parseInt(digits.join(&quot;&quot;),10); }
-</code></pre>
-<p>After using the pegjs website with the above, I got a parser I was able to place in my program. I can now solve the initial problem with:</p>
-<pre><code class="lang-python">par.parse(&quot;M:3:0:10 U M:5:0:10&quot;)[0].reduce( function (a,b) { return a+b; })
-</code></pre>
-<p>The final code for everything can be found on Github</p>
-<p>Custom D3.js gui for solving Project Euler Problem 1</p>
-<p>This is still a work in progress.</p>
-<p>Currently I have circles on the screen that represent the ranges of multiples. You can drag the circles around, and you can combine them by dragging them on-top of each other. The number at the bottom indicates the sum of all the numbers in the ranges that are contained in that circle. As an added bonus, if you double click on a circle that has more than one value in it, the last value added is popped off into a new circle.</p>
-<p>Code can be find here</p>
+<p>Not only does solving the problem in this way give you a much deeper understanding of the problem, It also pushes you to learn new technologies and a somewhat practical uses for applying these new technologies.</p>
+<h1 id="the-finished-problems">The &quot;finished&quot; problems</h1>
+<p>Here are the problems I&#39;ve gone through so far.  My goal is to make it through at least the first 100 problems on project euler.</p>
+<h3 id="-problem-1-https-projecteuler-net-problem-1-"><a href="https://projecteuler.net/problem=1">Problem 1</a></h3>
+<p>The first thing I did was wrote a <a href="https://github.com/analogpixel/euler/tree/master/1/parser">simple parser</a> in <a href="http://pegjs.org/">PEG.js</a> to solve this type of problem.  I then took that parser and  used  <a href="https://d3js.org/">d3</a> to make a <a href="https://github.com/analogpixel/euler/tree/master/1/d3Gui">gui</a> to solve the problem.</p>
+<p>Then I went in a different direction and used <a href="https://processing.org/">processing</a> to create an artistic <a href="https://github.com/analogpixel/euler/tree/master/1/s1">visualization</a> of the problem.</p>
+<!--
+### [Problem 2](https://projecteuler.net/problem=2) : 
+-->
 </div>
 </div>
   <div class="blackBar">
