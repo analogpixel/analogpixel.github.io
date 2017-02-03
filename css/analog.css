@@ -1,0 +1,39 @@
+body {
+	background-color: #ddd;
+	margin: 0px;
+	
+}
+
+.wrapper {
+	display: flex;
+	flex-flow: row wrap;
+	margin-top: -10px;
+	
+}
+
+.wrapper > * {
+  padding: 20px;
+  flex: 1 100%;
+}
+
+.main { 
+	flex: 12 0px;
+	background-color: white; 
+	height: 100%;
+}
+
+.aside-1 {
+    flex: 1 auto;
+}
+
+.aside-2 {
+	flex: 2 auto;
+	padding-left: 30px;
+	text-align: left;
+}
+
+.aside-1 { order: 1; }
+.main    { order: 2; }
+.aside-2 { order: 3; }
+
+.footer  { order: 4; }

@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html>
+<head>
+	
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<link rel="stylesheet" type="text/css" href="css/analog.css">
+	<link rel="stylesheet" type="text/css" href="css/pygments.css">
+	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+
+	<style type="text/css">
+		
+		
+
+	</style>
+
+	<title></title>
+</head>
+
+<body>
+
+	<div class="wrapper">
+		<!-- <header class="header">Header</header> -->
+
+		<div class=main>
+			<h1>awsIOT</h1>
+
+<h2>Introduction</h2>
+
+<img src="static/data/awsIOT-FullSizeRender_3.jpg" alt="img">
+<br>
+<br>
+To get my feet wet with the AWS/IOT platform, I setup a rotating red light that is controlled via an amazon button.  I'm using a raspberry pi as the end point that controls the red light, and when you click the IOT button, it activates or deactivates the light.  I also ended up setting up Ansible to configure the PI and push the software: <a href=piAnsible.html>piAnsible</a><br>
+<br>
+<h2>Interfacing the pi to the relay</h2>
+
+I used the <a href="http://tinkbox.ph/sites/tinkbox.ph/files/downloads/KEYES%205V%20Relay%20Module%20KY-019.pdf">keyes_rly</a>
+ relay module connected to the raspberry pi to control the red flashing light. More information on <a href="http://www.circuitbasics.com/setting-up-a-5v-relay-on-the-arduino/">hooking up the relay link</a>
+<br>
+<br>
+<img src="static/data/awsIOT-2017012309455468-IMG_1078-X3.jpg" alt="img">
+<br>
+<br>
+<img src="static/data/awsIOT-2017012309455468-IMG_1079-X3.jpg" alt="img">
+<br>
+<br>
+<h2>Getting nodejs to talk to the relay</h2>
+<h3>Simple Client</h3>
+First install all the dependencies:<br><br>
+<br>
+and then the script to listen for an event and trigger ping 36 on the pi.<br>
+<br>
+<table class="sourcetable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61</pre></div></td><td class="code"><div class="source"><pre><span></span><span class="c1">// https://github.com/aws/aws-iot-device-sdk-js</span>
+<span class="c1">// https://www.npmjs.com/package/rpi-gpio</span>
+
+<span class="kd">var</span> <span class="nx">awsIot</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;aws-iot-device-sdk&#39;</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">gpio</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;rpi-gpio&#39;</span><span class="p">);</span>
+ 
+<span class="nx">gpio</span><span class="p">.</span><span class="nx">setup</span><span class="p">(</span><span class="mi">36</span><span class="p">,</span> <span class="nx">gpio</span><span class="p">.</span><span class="nx">DIR_OUT</span><span class="p">);</span>
+
+<span class="kd">var</span> <span class="nx">device</span> <span class="o">=</span> <span class="nx">awsIot</span><span class="p">.</span><span class="nx">device</span><span class="p">({</span>
+      <span class="nx">keyPath</span><span class="o">:</span> <span class="s2">&quot;connect_device_package/testpi.private.key&quot;</span><span class="p">,</span>
+      <span class="nx">certPath</span><span class="o">:</span> <span class="s2">&quot;connect_device_package/testpi.cert.pem&quot;</span><span class="p">,</span>
+      <span class="nx">caPath</span><span class="o">:</span> <span class="s2">&quot;connect_device_package/root-CA.crt&quot;</span><span class="p">,</span>
+      <span class="nx">clientId</span><span class="o">:</span> <span class="s2">&quot;testpi&quot;</span><span class="p">,</span>
+      <span class="nx">region</span><span class="o">:</span> <span class="s2">&quot;us-west-2&quot;</span><span class="p">,</span>
+   <span class="p">});</span>
+
+
+<span class="nx">device</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;connect&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;connect&#39;</span><span class="p">);</span>
+
+   <span class="c1">//device.subscribe(&#39;topic_1&#39;);</span>
+   <span class="c1">// http://docs.aws.amazon.com/iot/latest/developerguide/thing-shadow-mqtt.html</span>
+   <span class="nx">device</span><span class="p">.</span><span class="nx">subscribe</span><span class="p">(</span><span class="s1">&#39;$aws/things/testpi/shadow/update&#39;</span><span class="p">)</span>
+   <span class="nx">device</span><span class="p">.</span><span class="nx">subscribe</span><span class="p">(</span><span class="s1">&#39;$aws/things/testpi/shadow/update/delta&#39;</span><span class="p">)</span>
+<span class="p">});</span>
+
+<span class="nx">device</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;close&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;close&#39;</span><span class="p">);</span>
+<span class="p">});</span>
+
+<span class="nx">device</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;reconnect&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;reconnect&#39;</span><span class="p">);</span>
+<span class="p">});</span>
+
+<span class="nx">device</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;offline&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;offline&#39;</span><span class="p">);</span>
+<span class="p">});</span>
+
+<span class="nx">device</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;error&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="p">{</span>
+   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;error&#39;</span><span class="p">,</span> <span class="nx">error</span><span class="p">);</span>
+<span class="p">});</span>
+
+<span class="nx">device</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;message&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">topic</span><span class="p">,</span> <span class="nx">payload</span><span class="p">)</span> <span class="p">{</span>
+   <span class="c1">// console.log(&#39;message&#39;, topic, JSON.parse(payload.toString()));</span>
+   <span class="kd">var</span> <span class="nx">data</span> <span class="o">=</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">payload</span><span class="p">.</span><span class="nx">toString</span><span class="p">());</span>
+   
+   <span class="k">if</span> <span class="p">(</span> <span class="nx">data</span><span class="p">[</span><span class="s1">&#39;state&#39;</span><span class="p">][</span><span class="s1">&#39;switch&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;on&quot;</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;turn the light on&quot;</span><span class="p">);</span>
+       <span class="nx">gpio</span><span class="p">.</span><span class="nx">write</span><span class="p">(</span><span class="mi">36</span><span class="p">,</span> <span class="kc">true</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="k">throw</span> <span class="nx">err</span><span class="p">;</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Written to pin&#39;</span><span class="p">);</span>
+      <span class="p">});</span>
+   <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;turn the light off&quot;</span><span class="p">);</span>
+       <span class="nx">gpio</span><span class="p">.</span><span class="nx">write</span><span class="p">(</span><span class="mi">36</span><span class="p">,</span> <span class="kc">false</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="k">throw</span> <span class="nx">err</span><span class="p">;</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Written to pin&#39;</span><span class="p">);</span>
+      <span class="p">});</span>
+   <span class="p">}</span>
+
+<span class="p">});</span>
+</pre></div>
+</td></tr></table>
+<br>
+<br>
+<h3>Lambda Function</h3>
+
+if you are doing this outside of lambda, make sure you run "aws configure" before testing. Also, make sure the timeout value is 10 seconds or higher.  I had the timeout set to 3 seconds initially, and sometimes the event would fire and sometimes It would not. <br>
+<br>
+You need to add this function, and then create a security profile that allows these permissions:<br>
+<br>
+<table class="sourcetable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27</pre></div></td><td class="code"><div class="source"><pre><span></span><span class="kn">import</span> <span class="nn">boto3</span>
+<span class="kn">import</span> <span class="nn">json</span>
+
+<span class="c1"># http://boto3.readthedocs.io/en/latest/reference/services/iot-data.html</span>
+
+<span class="k">def</span> <span class="nf">lambda_handler</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="n">context</span><span class="p">):</span>
+    <span class="n">client</span> <span class="o">=</span> <span class="n">boto3</span><span class="o">.</span><span class="n">client</span><span class="p">(</span><span class="s2">&quot;iot-data&quot;</span><span class="p">)</span>
+    
+    <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_thing_shadow</span><span class="p">(</span>
+    	<span class="n">thingName</span><span class="o">=</span><span class="s1">&#39;testpi&#39;</span>
+    <span class="p">)</span>
+    
+    <span class="n">d</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span> <span class="n">response</span><span class="p">[</span><span class="s1">&#39;payload&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;UTF-8&#39;</span><span class="p">)</span> <span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">d</span><span class="p">[</span><span class="s1">&#39;state&#39;</span><span class="p">][</span><span class="s1">&#39;desired&#39;</span><span class="p">][</span><span class="s1">&#39;switch&#39;</span><span class="p">]</span>  <span class="o">==</span> <span class="s2">&quot;on&quot;</span><span class="p">:</span>
+    	<span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;state&quot;</span> <span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;desired&quot;</span> <span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;switch&quot;</span> <span class="p">:</span> <span class="s2">&quot;off&quot;</span> <span class="p">}}}</span>
+    <span class="k">else</span><span class="p">:</span>
+    	<span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;state&quot;</span> <span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;desired&quot;</span> <span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;switch&quot;</span> <span class="p">:</span> <span class="s2">&quot;on&quot;</span> <span class="p">}}}</span>
+    
+    <span class="n">mypayload</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+    <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">update_thing_shadow</span><span class="p">(</span>
+        <span class="n">thingName</span><span class="o">=</span><span class="s1">&#39;testpi&#39;</span><span class="p">,</span>
+        <span class="n">payload</span><span class="o">=</span><span class="n">mypayload</span>
+    <span class="p">)</span>
+
+   <span class="k">return</span> <span class="s2">&quot;ok&quot;</span>
+</pre></div>
+</td></tr></table>
+<br>
+<br>
+To make the function work, it'll need access, go into aws dashboard -> My security Dashboard -> Roles -> and create a role that looks like this (not sure if all of this is required.):<br>
+<br>
+<img src="static/data/awsIOT-amazonRoles.png" alt="img">
+<br>
+<br>
+It will also need a trigger, that was hopefully setup for you when you setup the AWS IOT button.<br>
+<br>
+<h2>Other links</h2>
+<li class=bullet1><a href="http://boto3.readthedocs.io/en/latest/index.html">boto docs</a>
+</li>
+<li class=bullet1><a href="https://github.com/analogpixel/awsIOT"> My awsiot github repo</a>
+</li>
+
+<hr>
+<div class="tag">publish</div> <br>
+<br>
+
+
+		</div>
+
+		<aside class="aside aside-1"></aside>
+		<aside class="aside aside-2"><br><br><img src=img/helloMyNameIs.png width=200 >
+		    <br>
+		    <a href="https://www.analogpixel.org">Home</a><br>
+		    <a href="https://github.com/analogpixel/">GitHub</a><br>
+			<a href="http://analog.smugmug.com/">Photos</a><br>
+			<a href="https://365drawingsonthewall.tumblr.com/">Doodles</a><br>
+			<a href="mailto://matt.poepping@gmail.com">Email me</a><br>
+		</aside>
+		<!-- <footer class=footer>Footer</footer> -->
+	</div>
+
+	<script type="text/x-mathjax-config">
+            MathJax.Hub.Config({
+                asciimath2jax: {
+                delimiters: [['$|','|$']]
+                }
+            });
+            </script>
+            
+    <!-- http://docs.mathjax.org/en/latest/start.html -->
+    <script type="text/javascript" async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=AM_CHTML"></script>
+
+</body>
+</html>
