@@ -45,7 +45,20 @@ I used the <a href="http://tinkbox.ph/sites/tinkbox.ph/files/downloads/KEYES%205
 <br>
 <h2>Getting nodejs to talk to the relay</h2>
 <h3>Simple Client</h3>
-First install all the dependencies:<br><br>
+First install all the dependencies:<br>
+<br>
+<table class="sourcetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5</pre></div></td><td class="code"><div class="source"><pre><span></span>sudo apt-get purge nodejs npm
+curl -sL https://deb.nodesource.com/setup | sudo bash -
+sudo apt-get install -y nodejs
+npm install rpi-gpio
+npm install aws-iot-device-sdk
+</pre></div>
+</td></tr></table>
+<br>
 <br>
 and then the script to listen for an event and trigger ping 36 on the pi.<br>
 <br>
