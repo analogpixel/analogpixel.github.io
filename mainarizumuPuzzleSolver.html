@@ -41,7 +41,7 @@ In this puzzle, the greater than sign indicated that the lower left box, is grea
 
 As the cruised progressed, I learned that the hack-a-thon team was working toward building a solver for this puzzle, and solving puzzles on the computer is always a ton of fun, so I picked up my trusty python constraint solver and went to solving the puzzle.  <br>
 <br>
-The program is really two separate parts;  the first part is the solver, and the second part is the GUI that allows you to input the puzzle, and get answers back.   The GUI is webpage with a bunch of javascript, and then back end is a flask server accepting connections, calling the solver, and returning the results back to the page.<br>
+The program is really two separate parts;  the first part is the solver, and the second part is the GUI that allows you to input the puzzle, and get answers back.   The GUI is webpage with a bunch of javascript, and the back end is a flask server accepting connections, calling the solver, and returning the results back to the page.<br>
 <br>
 <h2>The GUI</h2>
 <img src="static/data/mainarizumuPuzzleSolver-pasted_20170320140131.png" alt="img">
@@ -52,7 +52,7 @@ The GUI allows you to pick the puzzle size, select your constraints, and then so
 <h2>The Solver</h2>
 The solver was written using the <a href="https://github.com/python-constraint/python-constraint">python-constraint</a>
  package and is pretty straight forward if you look at the <a href="https://github.com/analogpixel/puzzles/blob/master/mainarizumu/puz.py">code</a>
-. (I think I spent more time working on the GUI than the solver.)  Mostly I just setup all the constraints of the puzzle, and then have the solver go at it.  The only thing that tripped me up on the solver was passing variables into the lambda constraint, and this was solved via:
+. (I think I spent more time working on the GUI than the solver.)  Mostly I just setup all the constraints of the puzzle, and then had the solver go at it.  The only thing that tripped me up on the solver was passing variables into the lambda constraint, and this was solved via:
 <table class="sourcetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="source"><pre><span></span><span class="n">problem</span><span class="o">.</span><span class="n">addConstraint</span><span class="p">(</span>  <span class="k">lambda</span> <span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="o">=</span><span class="n">c</span><span class="p">[</span><span class="mi">2</span><span class="p">]:</span> <span class="nb">abs</span><span class="p">(</span><span class="n">a</span><span class="o">-</span><span class="n">b</span><span class="p">)</span> <span class="o">==</span> <span class="n">c</span> <span class="p">,</span> <span class="n">c</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>  <span class="p">)</span>
 </pre></div>
 </td></tr></table>
@@ -60,7 +60,7 @@ The solver was written using the <a href="https://github.com/python-constraint/p
 passing the variable in through the lambda variables. <br>
 <br>
 <h2>Using the Solver</h2>
-The solver can be used to both solve and build puzzles.  To use it, clone the repo, (I should have broken out it's own repo, but oh well.) Install the dependence with pip , run python main.py (using python 2.x)  and then connect to http://localhost:5002  <br>
+The solver can be used to both solve and build puzzles.  To use it, clone the repo, (I should have broken out it's own repo, but oh well.) Install the dependencies with pip , run python main.py (using python 2.x)  and then connect to http://localhost:5002  <br>
 <br>
 
 <h2>Links</h2>
