@@ -51,7 +51,7 @@ The GUI allows you to pick the puzzle size, select your constraints, and then so
 <br>
 <h2>The Solver</h2>
 The solver was written using the <a href="https://github.com/python-constraint/python-constraint">python-constraint</a>
- package and is pretty straight forward if you look at the <a href="https://github.com/analogpixel/puzzles/blob/master/mainarizumu/puz.py">code</a>
+ package and is pretty straight forward if you look at the <a href="https://github.com/analogpixel/mainarizumu">code</a>
 . (I think I spent more time working on the GUI than the solver.)  Mostly I just setup all the constraints of the puzzle, and then had the solver go at it.  The only thing that tripped me up on the solver was passing variables into the lambda constraint, and this was solved via:
 <table class="sourcetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="source"><pre><span></span><span class="n">problem</span><span class="o">.</span><span class="n">addConstraint</span><span class="p">(</span>  <span class="k">lambda</span> <span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="o">=</span><span class="n">c</span><span class="p">[</span><span class="mi">2</span><span class="p">]:</span> <span class="nb">abs</span><span class="p">(</span><span class="n">a</span><span class="o">-</span><span class="n">b</span><span class="p">)</span> <span class="o">==</span> <span class="n">c</span> <span class="p">,</span> <span class="n">c</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>  <span class="p">)</span>
 </pre></div>
@@ -64,7 +64,7 @@ The solver can be used to both solve and build puzzles.  To use it, clone the re
 <br>
 
 <h2>Links</h2>
-<li class=bullet1><a href="https://github.com/analogpixel/puzzles/tree/master/mainarizumu">Code for solver and puzzle on github</a>
+<li class=bullet1><a href="https://github.com/analogpixel/mainarizumu">Code for solver and puzzle on github</a>
 </li>
 <li class=bullet1><a href="https://en.wikipedia.org/wiki/Mainarizumu">Wikipedia on Mainarizumu</a>
 </li>
