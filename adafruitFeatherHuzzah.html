@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+	
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<link rel="stylesheet" type="text/css" href="css/analog.css">
+	<link rel="stylesheet" type="text/css" href="css/pygments.css">
+	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+
+	<style type="text/css">
+		
+		
+
+	</style>
+
+	<title></title>
+</head>
+
+<body>
+
+	<div class="wrapper">
+		<!-- <header class="header">Header</header> -->
+
+		<div class=main>
+			<h1>adafruit Feather Huzzah</h1>
+
+<h2>Overview</h2>
+<img src="static/data/adafruitFeatherHuzzah-feather1.png" alt="img">
+<br>
+<br>
+In this project I'm using the <a href="https://learn.adafruit.com/adafruit-feather-huzzah-esp8266/overview">Adafruit Feather Huzzah</a>
+ to build a remotely controlled mini display.  To use the device, you connect to the server hosting the drawing application, and draw a picture, and then on a time interval, the Huzzah checks in and update the display based on what was drawn on the server.<br>
+<br>
+I was thinking this would make a cool concept for badges at a conference; each badge would have the display, and a QR code you could scan that would take you to the server to edit the image on that badge.  And then at the end of the conference everyone could have poorly draw penises on their badges (because what else would people draw.... sigh...)<br>
+<br>
+The interface, in it's current state, is pretty simple; just a flask application that talks to the huzzah, and a html front end that allows you to draw on an html canvas. In the future I need to update the interface so you can draw from phone or tablet.<br>
+<br>
+<img src="static/data/adafruitFeatherHuzzah-interface1.png" alt="img">
+<br>
+<br>
+<h2>Issues</h2>
+I started off using the Adafruit GFX library, but soon found that it only read from local ram that couldn't be updated, and it did it in 8bit chunks, so I switched up to my own bit blitting routine that worked off 16 bit integers instead.  <br>
+<br>
+I also run into an issue of the link to the display is lost every time I pause too long reading data, I think this is the i2c timing breaking, and having to be reset but haven't checked into it yet (I just fixed it.)<br>
+<br>
+The code for the server, and the Huzzah display can be found on <a href="https://github.com/analogpixel/featherWifiOled">github</a>
+<br>
+<br>
+<h2>Links</h2>
+<li class=bullet1><a href="https://github.com/analogpixel/featherWifiOled">src code</a>
+</li>
+<li class=bullet1><a href="https://learn.adafruit.com/adafruit-feather-huzzah-esp8266/pinouts">Feather pinouts</a>
+</li>
+<li class=bullet1><a href="https://github.com/adafruit/Adafruit_SSD1306">Adafruit ssd1306 library on github</a>
+</li>
+<li class=bullet1><a href="https://github.com/adafruit/Adafruit-GFX-Library">Adafruit GFX library on github</a>
+</li>
+<hr>
+<div class="tag">adafruit</div>
+<div class="tag">arduino</div>
+<div class="tag">feather</div>
+<div class="tag">esp</div>
+<div class="tag">wireless</div>
+<div class="tag">lcd</div>
+<div class="tag">publish</div>
+
+		</div>
+
+		<aside class="aside aside-1"></aside>
+		<aside class="aside aside-2"><br><br><img src=img/helloMyNameIs.png width=200 >
+		    <br>
+		    <a href="http://www.analogpixel.org">Home</a><br>
+		    <a href="https://github.com/analogpixel/">GitHub</a><br>
+			<a href="http://analog.smugmug.com/">Photos</a><br>
+			<a href="https://365drawingsonthewall.tumblr.com/">Doodles</a><br>
+			<a href="mailto://matt.poepping@gmail.com">Email me</a><br>
+		</aside>
+		<!-- <footer class=footer>Footer</footer> -->
+	</div>
+
+	<script type="text/x-mathjax-config">
+            MathJax.Hub.Config({
+                asciimath2jax: {
+                delimiters: [['$|','|$']]
+                }
+            });
+            </script>
+            
+    <!-- http://docs.mathjax.org/en/latest/start.html -->
+    <script type="text/javascript" async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=AM_CHTML"></script>
+
+</body>
+</html>
