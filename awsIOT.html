@@ -28,25 +28,19 @@
 
 <img src="static/data/awsIOT-FullSizeRender_3.jpg" alt="img">
 <br>
-<br>
 To get my feet wet with the AWS/IOT platform, I setup a rotating red light that is controlled via an amazon button.  I'm using a raspberry pi as the end point that controls the red light, and when you click the IOT button, it activates or deactivates the light.  I also ended up setting up Ansible to configure the PI and push the software: <a href=piAnsible.html>piAnsible</a><br>
-<br>
 <h2>Interfacing the pi to the relay</h2>
 
 I used the <a href="http://tinkbox.ph/sites/tinkbox.ph/files/downloads/KEYES%205V%20Relay%20Module%20KY-019.pdf">keyes_rly</a>
  relay module connected to the raspberry pi to control the red flashing light. More information on <a href="http://www.circuitbasics.com/setting-up-a-5v-relay-on-the-arduino/">hooking up the relay link</a>
 <br>
-<br>
 <img src="static/data/awsIOT-2017012309455468-IMG_1078-X3.jpg" alt="img">
 <br>
-<br>
 <img src="static/data/awsIOT-2017012309455468-IMG_1079-X3.jpg" alt="img">
-<br>
 <br>
 <h2>Getting nodejs to talk to the relay</h2>
 <h3>Simple Client</h3>
 First install all the dependencies:<br>
-<br>
 <table class="sourcetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2
 3
@@ -59,9 +53,7 @@ npm install aws-iot-device-sdk
 </pre></div>
 </td></tr></table>
 <br>
-<br>
 and then the script to listen for an event and trigger ping 36 on the pi.<br>
-<br>
 <table class="sourcetable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
  2
  3
@@ -186,13 +178,10 @@ and then the script to listen for an event and trigger ping 36 on the pi.<br>
 </pre></div>
 </td></tr></table>
 <br>
-<br>
 <h3>Lambda Function</h3>
 
 if you are doing this outside of lambda, make sure you run "aws configure" before testing. Also, make sure the timeout value is 10 seconds or higher.  I had the timeout set to 3 seconds initially, and sometimes the event would fire and sometimes It would not. <br>
-<br>
 You need to add this function, and then create a security profile that allows these permissions:<br>
-<br>
 <table class="sourcetable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
  2
  3
@@ -249,14 +238,10 @@ You need to add this function, and then create a security profile that allows th
 </pre></div>
 </td></tr></table>
 <br>
-<br>
 To make the function work, it'll need access, go into aws dashboard -> My security Dashboard -> Roles -> and create a role that looks like this (not sure if all of this is required.):<br>
-<br>
 <img src="static/data/awsIOT-amazonRoles.png" alt="img">
 <br>
-<br>
 It will also need a trigger, that was hopefully setup for you when you setup the AWS IOT button.<br>
-<br>
 <h2>Other links</h2>
 <li class=bullet1><a href="http://boto3.readthedocs.io/en/latest/index.html">boto docs</a>
 </li>
@@ -265,7 +250,6 @@ It will also need a trigger, that was hopefully setup for you when you setup the
 
 <hr>
 <div class="tag">publish</div> <br>
-<br>
 
 
 		</div>

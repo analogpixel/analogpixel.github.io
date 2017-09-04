@@ -25,16 +25,13 @@
 			<h1>Configuring LDAP single sign on</h1>
 
 This document will cover the configuration of single sign in the Seagate environment. Since ldap.seagate.com doesn't have the unix user scheme installed, many default values are assumed (group,shell,homedir)<br>
-<br>
 <h2>Server Configuration</h2>
 <h3>nslcd</h3>
 There is a lot of assuming going on since we don't capture the users default
 shell or groupid in ldap, so the defaults will be: /home/<uid> for the home,
 /bin/bash for the shell, and 100 for the default group (user in unix)<br>
-<br>
 Since the unix schema isn't installed on the ldap server, you'll need to
 specify the values with map entries.<br>
-<br>
 <table class="sourcetable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
  2
  3
@@ -59,11 +56,9 @@ map     passwd loginShell     &quot;/bin/bash&quot;
 </pre></div>
 </td></tr></table>
 <br>
-<br>
 <h3>pam_ldap.conf</h3>
 This file is read by the pam_ldap.so module and should have the same
 values as the ldap.conf and openldap/ldap.conf file<br>
-<br>
 <table class="sourcetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2
 3
@@ -78,12 +73,10 @@ bind_timelimit 90
 </pre></div>
 </td></tr></table>
 <br>
-<br>
 <h3>Certificaite configuration</h3>
 certs need to be in /etc/openldap/cacerts  and then you need to run
 /usr/sbin/cacertdir_rehash /etc/openldap/cacerts  which will add links
 to make them active. you can get the cert from: <b>http://pki.seagate.com/root</b><br>
-<br>
 <h3>openldap/ldap.conf</h3>
 <table class="sourcetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2
@@ -92,7 +85,6 @@ base o=seagate.com,o=sds
 TLS_REQCERT never
 </pre></div>
 </td></tr></table>
-<br>
 <br>
 <h3>nsswitch.conf</h3>
 <table class="sourcetable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
@@ -127,11 +119,9 @@ aliases:    files nisplus
 </pre></div>
 </td></tr></table>
 <br>
-<br>
 <h3>system-auth</h3>
 <h4>The four pam modules</h4>
 of the four pam modules, auth will be the only one modified to do ldap lookups. Session will be modified so home directories will be created for users if they don't exist.<br>
-<br>
 <li class=bullet1><i>auth</i> : This module is used for authenticating. If something needs to check if a password is valid, it'll call the auth module</li>
 <li class=bullet1><i>account</i> : This module will check if the account has access to a resource. If their password is expired, this module will catch that.</li>
 <li class=bullet1><i>password</i> :  This module is used to change the users password</li>
@@ -151,11 +141,9 @@ Everywhere that pam_unix is called, pam_ldap should also be called.
  both system-auth and password-auth are used by pam.d configurations, instead of
  trying to update all pam.d modules to use system-auth, I just updated both
  system-auth and password-auth to work correctly with ldap.<br>
-<br>
 I've also added pam_mkhomedir.so which will create a users home directory if
 it does not exist when they login.  The default directory of /etc/skel will
 be used to fill in the initial directory.<br>
-<br>
 <h4>system-auth</h4>
 <table class="sourcetable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
  2
@@ -204,7 +192,6 @@ session     required      pam_unix.so
 session     required      pam_mkhomedir.so skel=/etc/skel umask=0022
 </pre></div>
 </td></tr></table>
-<br>
 <br>
 <h4>password-auth</h4>
 <table class="sourcetable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
@@ -255,12 +242,10 @@ session     required      pam_mkhomedir.so skel=/etc/skel umask=0022
 </pre></div>
 </td></tr></table>
 <br>
-<br>
 
 <h2>puppet configuration</h2>
 This configuration will work for Redhat based machines (cent/fedora/rhel). Debian based
 machines will have a slightly different configuration.<br>
-<br>
 <table class="sourcetable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
  2
  3
@@ -407,7 +392,6 @@ machines will have a slightly different configuration.<br>
 </pre></div>
 </td></tr></table>
 <br>
-<br>
 
 <h2>Vagrant configuration</h2>
 	
@@ -441,7 +425,6 @@ machines will have a slightly different configuration.<br>
 </pre></div>
 </td></tr></table>
 <br>
-<br>
 
 <h2>Baseline</h2>
 <h3>Timing</h3>
@@ -451,7 +434,6 @@ machines will have a slightly different configuration.<br>
 <h3>Logging</h3>
 <h4>/var/log/secure</h4>
 failure on local authenticaion, and then success on ldap authentication<br>
-<br>
 <table class="sourcetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2
 3</pre></div></td><td class="code"><div class="source"><pre><span></span>Jan 26 19:58:40 localhost sshd[3239]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=10.0.2.2  user=527855
@@ -460,7 +442,6 @@ Jan 26 19:58:51 localhost sshd[3239]: pam_unix(sshd:session): session opened for
 </pre></div>
 </td></tr></table>
 <br>
-<br>
 <h2>Testing and Debugging</h2>
 <h3>testing ldap settings</h3>
 <li class=bullet1>-W ask for password (-w to supply a password)</li>
@@ -468,15 +449,12 @@ Jan 26 19:58:51 localhost sshd[3239]: pam_unix(sshd:session): session opened for
 <li class=bullet1>-H ldap://ldap.seagate.com (set the host if ldap.conf isn't setup)</li>
 
 ldapsearch -W -D uid=527855,ou=people,o=seagate.com,o=sds -b o=SDS uid=527855<br>
-<br>
 <h3>Testing nslcd</h3>
 To debug nslcd, stop the nslcd service (and the nscd if it is running) and run nslcd -d to start the program in debug mode.<br>
-<br>
 <h3>Errors</h3>
 <h3>missing attribute "gidNumber"</h3>
 If there isn't a mapping in the nslcd.conf and the default value isn't in ldap, a message
 like this will show up.  See the nslcd.conf for examples on how to setup mappings.<br>
-<br>
 <h2>links</h2>
 <li class=bullet1><a href="https://www.howtoforge.com/linux_ldap_authentication">Configuring a client</a>
 </li>

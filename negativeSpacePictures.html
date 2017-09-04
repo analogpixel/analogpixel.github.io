@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+	
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<link rel="stylesheet" type="text/css" href="css/analog.css">
+	<link rel="stylesheet" type="text/css" href="css/pygments.css">
+	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+
+	<style type="text/css">
+		
+		
+
+	</style>
+
+	<title></title>
+</head>
+
+<body>
+
+	<div class="wrapper">
+		<!-- <header class="header">Header</header> -->
+
+		<div class=main>
+			<h1>negative Space Pictures</h1>
+
+<div class=quote><ol>Sometimes the Medium is the art.<br>-- Me<br></div><br>
+<h2>Introduction</h2>
+
+While On the JOCO cruise, the boat had some interesting wall liners, where up close they just looked like wavy sticks on the wall, but as you pulled back, and image appeared.  I decided to try to replicate that, but instead of using wood  (this time), I'd cut the shapes out in paper:<br>
+
+<img src="static/data/negativeSpacePictures-wavjoco1.png" alt="img">
+<br>
+<img src="static/data/negativeSpacePictures-wavjoco2.png" alt="img">
+<br>
+<h2>The program</h2>
+I used <a href="paperjs.or">paper.js</a>
+ due to a lack of finding anything better that can do simple boolean math on shapes; even paper.js was lacking, as every boolean operation seems to create all sorts of new paths, and the final result needs to be cleaned up in illustrator.<br>
+To create the final result, I took an image and shrunk it down pretty small (50x50), and then for each pixel I would create a semi-circle with the size of the circle being based on the greyscale value of the original image.  I then took all these shapes and used boolean unites and subtractions to merge them into one path (per row).<br>
+<img src="static/data/negativeSpacePictures-butterfly.png" alt="img">
+<br>
+Once I got this, I exported it to svg (via paper.js), opened it in Illustrator, cleaned up all the paths, and then saved that as a DXF file (that's what the Cameo uses).  From there, I just opened the dxf on the Cameo software, and cut out the image. <br>
+The software has an option to invert the whitespace; depending on how you want the negative space to show up: here is version1 of the white space:<br>
+<img src="static/data/negativeSpacePictures-shot1.png" alt="img">
+<br>
+<img src="static/data/negativeSpacePictures-shot2.png" alt="img">
+<br>
+<br>
+and then inverting the whitespace you get:
+<br><br>
+<img src="static/data/negativeSpacePictures-shot3invert.png" alt="img">
+<br>
+<br>
+<h2>Source </h2>
+The source can be found on <a href="https://github.com/analogpixel/negativeSpacePictures">git</a>
+
+<hr>
+<div class="tag">publish</div>
+<div class="tag">javascript</div>
+<div class="tag">boolean</div>
+<div class="tag">art</div>
+
+		</div>
+
+		<aside class="aside aside-1"></aside>
+		<aside class="aside aside-2"><br><br><a href="http://www.analogpixel.org"><img src=img/helloMyNameIs.png width=200 border=0></a>
+		    <br>
+		    <a href="http://www.analogpixel.org">Home</a><br>
+		    <a href="https://github.com/analogpixel/">GitHub</a><br>
+			<a href="http://analog.smugmug.com/">Photos</a><br>
+			<a href="https://analog.smugmug.com/Whiteboard/">Doodles</a><br>
+			<a href="https://analog.smugmug.com/Make-Things/">Random Things</a><br>
+			<a href="mailto://matt.poepping@gmail.com">Email me</a><br>
+		</aside>
+		<!-- <footer class=footer>Footer</footer> -->
+	</div>
+
+	<script type="text/x-mathjax-config">
+            MathJax.Hub.Config({
+                asciimath2jax: {
+                delimiters: [['$|','|$']]
+                }
+            });
+            </script>
+            
+    <!-- http://docs.mathjax.org/en/latest/start.html -->
+    <script type="text/javascript" async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=AM_CHTML"></script>
+
+</body>
+</html>

@@ -26,13 +26,9 @@
 
 <img src="static/data/magicBox-magicbox.png" alt="img">
 <br>
-<br>
 Magicbox is a small web application, that gathers data from slower resources, and inserts them into a redis cache.  You can then do partial searches on the data extremely fast.  Data sources like user information from ldap, or host information with the corresponding cname records and inventory data are available , and results return in about a second or less.<br>
-<br>
 Each night, the data collection scripts go out and collect data, and index it into the redis cache.  After that, the information is accessible instantly.<br>
-<br>
 I used flask for the front end of the web application, and redis for the backend.  All the plugins that gather data are separate flask applications, and all the parts, including redis, are all running in containers.  <br>
-<br>
 <div class="tag">publish</div>
 
 		</div>

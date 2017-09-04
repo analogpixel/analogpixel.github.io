@@ -29,26 +29,18 @@
 While on the <a href="https://jococruise.com/">JOCO</a>
  cruise, I was introduced to the puzzle <a href="https://en.wikipedia.org/wiki/Mainarizumu">Mainarizumu</a>
  (zumu) ; which is a Sudoku like game that differs from Sudoku in that there are constraints  on some of the squares.  This can best be explained with a small example puzzle:<br>
-<br>
 <img src="static/data/mainarizumuPuzzleSolver-pasted_20170320135334.png" alt="img">
 <br>
-<br>
 In this puzzle, the greater than sign indicated that the lower left box, is greater than the lower right box.  Given that constraint and that each column and row must be unique and between 1 and 2 we get the solution: <br>
-<br>
 <img src="static/data/mainarizumuPuzzleSolver-pasted_20170320135435.png" alt="img">
-<br>
 <br>
 
 As the cruised progressed, I learned that the hack-a-thon team was working toward building a solver for this puzzle, and solving puzzles on the computer is always a ton of fun, so I picked up my trusty python constraint solver and went to solving the puzzle.  <br>
-<br>
 The program is really two separate parts;  the first part is the solver, and the second part is the GUI that allows you to input the puzzle, and get answers back.   The GUI is webpage with a bunch of javascript, and the back end is a flask server accepting connections, calling the solver, and returning the results back to the page.<br>
-<br>
 <h2>The GUI</h2>
 <img src="static/data/mainarizumuPuzzleSolver-pasted_20170320140131.png" alt="img">
 <br>
-<br>
 The GUI allows you to pick the puzzle size, select your constraints, and then solve the puzzle.  After you click solve, you get back one or more solutions for the puzzle, which you can then scroll through.<br>
-<br>
 <h2>The Solver</h2>
 The solver was written using the <a href="https://github.com/python-constraint/python-constraint">python-constraint</a>
  package and is pretty straight forward if you look at the <a href="https://github.com/analogpixel/mainarizumu">code</a>
@@ -58,10 +50,8 @@ The solver was written using the <a href="https://github.com/python-constraint/p
 </td></tr></table>
 
 passing the variable in through the lambda variables. <br>
-<br>
 <h2>Using the Solver</h2>
 The solver can be used to both solve and build puzzles.  To use it, clone the repo, (I should have broken out it's own repo, but oh well.) Install the dependencies with pip , run python main.py (using python 2.x)  and then connect to http://localhost:5002  <br>
-<br>
 
 <h2>Links</h2>
 <li class=bullet1><a href="https://github.com/analogpixel/mainarizumu">Code for solver and puzzle on github</a>
@@ -71,7 +61,6 @@ The solver can be used to both solve and build puzzles.  To use it, clone the re
 <hr>
 <div class="tag">puzzle</div>
 <div class="tag">publish</div><br>
-<br>
 
 		</div>
 

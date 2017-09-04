@@ -25,17 +25,13 @@
 			<h1>storageHeapMaps</h1>
 
 Storage heat maps show what partitions are being used across different type of operating systems.   The idea for this came up when I had a certain type of OS that was filling up the boot, so I thought it would be good if I could see a correlation between OS type and partition usage on those OS's.  <br>
-<br>
 I used puppet to push out a configuration that would setup a cron to run a collection script once an hour.  This data is pushed up into elastic search, and then a flask application reads that data and reports on it.  The actual graphs are created with the <a href="https://plot.ly/javascript/">plotly.js</a>
  javascript library.  <br>
-<br>
 <img src="static/data/storageHeapMaps-heatMaps.png" alt="img">
-<br>
 <br>
 <h2>pushDisk.py</h2>
 
 This is the script that runs hourly and pushes the data back up to elastic search.<br>
-<br>
 <table class="sourcetable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
  2
  3
@@ -110,10 +106,8 @@ This is the script that runs hourly and pushes the data back up to elastic searc
 </pre></div>
 </td></tr></table>
 <br>
-<br>
 <h2>Source</h2>
 All the source for the web application can be found on <a href="https://github.com/analogpixel/storageHeatMaps">github</a>
-<br>
 <br>
 <div class="tag">publish</div>
 

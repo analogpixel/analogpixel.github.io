@@ -29,31 +29,23 @@ ELK is an acronym that stands for <a href="https://www.elastic.co/">Elasticsearc
 , <a href="https://www.elastic.co/products/logstash">Log Stash</a>
 , and <a href="https://www.elastic.co/products/kibana">Kibana</a>
 .  They are very frequently used together to collect, parse, and view large amounts of data.  <br>
-<br>
 Elasticsearch is a NOSQL database, with a very nice RESTfull api infront of it, which makes it very easy to put data into, and get data out of.  It is also very easy to setup a cluster of servers, which then makes the searching even faster as the data and searching is spread out among all the nodes in your cluster.<br>
-<br>
 Log Stash, is a data parsing pipeline.  The pipeline has modules that run in three phases; the first phase is the input phase, and there are many modules that allow you to load in data from various sources.  The second phase is the filter phase;  this allows you to transform and filter your data.  The final phase is the output phase, and like the input phase, there are many modules that allow you to output the data in many formats, one of which is to output directly to elasticsearch.<br>
-<br>
 In this post, I'll walk through setting up a smaller docker environment using <a href="https://www.vagrantup.com/">Vagrant</a>
   and then using a docker image to start up a complete ELK stack.  Once the environment is up, you'll be able to login to the container, and load CSV data into Elasticsearch, via logstash, and then view the data with Kibana.<br>
-<br>
 <h2>Source code to follow along</h2>
 If you want to follow along with this example, you can clone the git repo that has all the files you need:<br>
-<br>
 <table class="sourcetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2</pre></div></td><td class="code"><div class="source"><pre><span></span>git clone https://github.com/analogpixel/longmontDataScience
 <span class="nb">cd</span> elk
 </pre></div>
 </td></tr></table>
 <br>
-<br>
 <h2>Vagrant</h2>
 To get vagrant working, you just need to install <a href="https://www.vagrantup.com/">Vagrant</a>
 , and <a href="https://www.virtualbox.org/wiki/VirtualBox">virtualbox</a>
 . Once that is installed, you can just cd into the elk directory, and run <b>vagrant up</b> .  If everything works correctly, you should see Vagrant downloading an image, starting it, and then building the machine (after the machine is up, you can run <b>vagrant ssh</b> and it'll log you into the virtual machine).  There is a lot of voodoo going on that i'll explain now:<br>
-<br>
 After vagrant has started your virtual machine, it is going to run a script that is embedded in the Vagrantfile:<br>
-<br>
 <table class="sourcetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2
 3
@@ -66,15 +58,11 @@ puppet apply server.pp
 </pre></div>
 </td></tr></table>
 <br>
-<br>
 This script tells the machine to update the apt repo cache, install puppet, the puppet apt module, and then run puppet to finish the configuration of the machine.  <br>
-<br>
 <h2>Puppet</h2>
 The server.pp file is a puppet manifest that configures the apt repos for docker, installs docker, and then puts all the support files into the correct place.   At the end of the file you can see that it is actually running the process that will transform the csv data we were given, into something that works better with logstash.<br>
-<br>
 <h2>The docker ELK container</h2>
 By this point, Vagrant has run and Puppet has run (hopefully)  and your virtual machine is ready to pull down the docker image and run it.  To do this you can just run the start.sh script in the elk directory, or you can just run:<br>
-<br>
 <table class="sourcetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2
 3</pre></div></td><td class="code"><div class="source"><pre><span></span>sudo bash
@@ -83,29 +71,21 @@ docker run --rm -d -m 4g -p <span class="m">5601</span>:5601 -p <span class="m">
 </pre></div>
 </td></tr></table>
 <br>
-<br>
 this will download (if you don't have it already) the elk container, and start it up with all the ports mapped and the volumes mapped to the /data directory on the vm.  Also, when vagrant started there was a line in the Vagrantfile that mapped that Kibana port to your host operating system<br>
-<br>
 <table class="sourcetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="source"><pre><span></span>server1.vm.network &quot;forwarded_port&quot;, guest: 5601, host: 5601
 </pre></div>
 </td></tr></table>
 <br>
-<br>
 so, once you have given the container a second to start up, you should be able to go to http://localhost:5601 and see the Kibana login.<br>
-<br>
 <h2>Logging into the container</h2>
 We are getting to an inception moment here;  You are running Vagrant which started a virtual machine on your host machine, and now you are logging into the virtual machine, and from there you are going to log into a container.  From the virtual machine run:<br>
-<br>
 <table class="sourcetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="source"><pre><span></span>docker exec  -it elk bash
 </pre></div>
 </td></tr></table>
 <br>
-<br>
 this will connect to the container that was named elk (--name elk)  and run bash (allowing you to login).  Once in you can change to the /data directory because that's where all the fun is going to take place.<br>
-<br>
 <h2>Logstash</h2>
 As stated in the summary logstash is a pipeline that takes data in, does something with it, and then exports it.    This configuration is stored in the <a href=cvsPipe.conf.html>cvsPipe.conf</a> file and looks a lot like this:<br>
-<br>
 <table class="sourcetable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
  2
  3
@@ -182,11 +162,8 @@ stdout {}
 </pre></div>
 </td></tr></table>
 <br>
-<br>
 The interesting parts here are the convert and date section.  Without these sections, the csv module would just load in all the data as strings, and then when you get to Kibana, you wouldn't be able to do anything with it.   The convert line, tells logstash to take each column that is defined, and convert the type to a float (other options are available) .  The date line looks at the DateTime field that is pulled in from the CSV file, and then matches the pre-defined date format, and writes out a new field called Date that has the correct date and time.  <br>
-<br>
 Before we can do the date magic as stated above, we have to do a little data wrangling as the format we were given the the data and time in doesn't seem to work well with logstash.  If you look at the transform.py file, you'll see the python code:<br>
-<br>
 <table class="sourcetable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
  2
  3
@@ -217,27 +194,19 @@ Before we can do the date magic as stated above, we have to do a little data wra
 </pre></div>
 </td></tr></table>
 <br>
-<br>
 that opens up the data we were given (data.csv) and converts the date and time to one field, and outputs the new data to output.csv.  If you were using the puppet manifest to setup everything, this step was already run, if not, you'll need to run <b>python transform.py</b> first to get your data into a format logstash will appreciate better.<br>
-<br>
 At this point, you are really close, all you need to do is run logstash from the /data directory:<br>
-<br>
 <table class="sourcetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2</pre></div></td><td class="code"><div class="source"><pre><span></span>cd /data
 /opt/logstash/bin/logstash -f csvPipe.conf
 </pre></div>
 </td></tr></table>
 <br>
-<br>
 After a few seconds, you should have a bunch of data sitting in elasticsearch ready to be viewed by kibana.<br>
-<br>
 <h2>Kibana</h2>
 Now we are ready to view some data into Kibana, If everything has worked so far, you should be able to connect to http://localhost:5601 and your host machine and see Kibana.  <br>
-<br>
 Since this is a fresh install of Kibana, we'll need to tell it where our data is, by default it tries to look for logstash-<i> data</i> to blower-data,  because in the <a href=csvPipe.conf.html>csvPipe.conf</a> file, when we wrote to elasticsearch the index we picked was called blower-data.  So make that change, wait a few seconds, and the UI should change a bit, and you should see a box asking for the Time-field name, select the Date field in the dropdown as that is the place we put the converted date time in the <a href=csvPipe.conf.html>csvPipe.conf</a> file (target => "Date").  Click create, and then click over to the discover tab on the left.<br>
-<br>
 And see that there is NO data.  HAHAHA all is for nothing.  Just kidding.  If you look up in the upper right corner, you'll see that the time range it is look at is the last 15min.  Just click on the 15min area, and you'll get a drop down that will let you pick other time ranges, go for the last year, and you should see your data appear.<br>
-<br>
 
 <hr>
 <div class="tag">publish</div>
@@ -245,7 +214,6 @@ And see that there is NO data.  HAHAHA all is for nothing.  Just kidding.  If yo
 <div class="tag">logstash</div>
 <div class="tag">elasticsearch</div>
 <div class="tag">longmontdatascience</div><br>
-<br>
 
 		</div>
 
