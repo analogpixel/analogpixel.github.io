@@ -11,7 +11,7 @@ var colors = ['#48466d', '#3d84a8','#46cdcf', '#abedd8'];
 var rings;
 
 s = swing;
-sinc = .5;
+sinc = 1.5;
 hold = 0;
 
 function setup() {
@@ -38,7 +38,7 @@ function draw() {
     translate(width/2, height/2);
     rotate( radians(r) );
     translate(-width/2, -height/2);
-    r+=1;
+    r+=2;
 
     for (var x=0 ; x<=width; x+=gridSize) {
       y = sin( map(x, 0, width-gridSize, 0, 3.14) ) * s;
