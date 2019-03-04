@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Clipping Example</title>
+    <script src="p5.min.js"></script>
+    <script src="TweenLite.min.js"></script>
+    <script src="TimelineLite.min.js"></script>
+    <script src="jq-min.js"></script>
+  </head>
+  <body>
+    <script>
+      var url = new URL(window.location.href);
+      s = url.search.split("=")[1]
+      var _script = document.createElement('script');
+      _script.src = s;
+      document.body.appendChild(_script);
+    </script>
+  </body>
+</html>
