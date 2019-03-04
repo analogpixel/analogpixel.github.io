@@ -23,7 +23,7 @@ function draw() {
 
   tl.to(b, .5, {c:0})
     .to(b, .2, {c:9})
-    .to(b, 1, {y:-200, ease: Power3.easeOut })
+    .to(b, 1, {y:-300, ease: Power3.easeOut })
     .to(b, 0, {c: 6, y:height+200})
     .to(b, 3, {y:height-200})
     .to(b, 0, {x: 200, y: height-200, c: 6});
