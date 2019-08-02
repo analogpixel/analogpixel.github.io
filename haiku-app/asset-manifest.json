@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.css": "/static/css/main.e43d5718.chunk.css",
-    "main.js": "/static/js/main.b8375084.chunk.js",
-    "main.js.map": "/static/js/main.b8375084.chunk.js.map",
-    "runtime~main.js": "/static/js/runtime~main.a8a9905a.js",
-    "runtime~main.js.map": "/static/js/runtime~main.a8a9905a.js.map",
-    "static/js/2.3a2ba5f9.chunk.js": "/static/js/2.3a2ba5f9.chunk.js",
-    "static/js/2.3a2ba5f9.chunk.js.map": "/static/js/2.3a2ba5f9.chunk.js.map",
-    "index.html": "/index.html",
-    "precache-manifest.56376693deee87b07cc78e358ff1e9e8.js": "/precache-manifest.56376693deee87b07cc78e358ff1e9e8.js",
-    "service-worker.js": "/service-worker.js",
-    "static/css/main.e43d5718.chunk.css.map": "/static/css/main.e43d5718.chunk.css.map",
-    "static/media/HaikuLine.css": "/static/media/Smackover.e2de676c.ttf",
-    "static/media/App.css": "/static/media/bg.07e130c8.jpg"
+    "main.css": "/haiku-app/static/css/main.3dacd661.chunk.css",
+    "main.js": "/haiku-app/static/js/main.b1185213.chunk.js",
+    "main.js.map": "/haiku-app/static/js/main.b1185213.chunk.js.map",
+    "runtime~main.js": "/haiku-app/static/js/runtime~main.559ab48e.js",
+    "runtime~main.js.map": "/haiku-app/static/js/runtime~main.559ab48e.js.map",
+    "static/js/2.3a2ba5f9.chunk.js": "/haiku-app/static/js/2.3a2ba5f9.chunk.js",
+    "static/js/2.3a2ba5f9.chunk.js.map": "/haiku-app/static/js/2.3a2ba5f9.chunk.js.map",
+    "index.html": "/haiku-app/index.html",
+    "precache-manifest.5898b66ac3e393898f456e06c82b8c10.js": "/haiku-app/precache-manifest.5898b66ac3e393898f456e06c82b8c10.js",
+    "service-worker.js": "/haiku-app/service-worker.js",
+    "static/css/main.3dacd661.chunk.css.map": "/haiku-app/static/css/main.3dacd661.chunk.css.map",
+    "static/media/HaikuLine.css": "/haiku-app/static/media/Smackover.e2de676c.ttf",
+    "static/media/App.css": "/haiku-app/static/media/bg.07e130c8.jpg"
   }
 }
