@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "c1b2e454f7538a917bc5a185e3701176",
+    "revision": "0315af94d5f9612c25f93684ecc6d799",
     "url": "/haiku-app/index.html"
   },
   {
-    "revision": "77e5873100c10ac3aeea",
+    "revision": "4031e545b9d2fcea4e27",
     "url": "/haiku-app/static/css/main.3dacd661.chunk.css"
   },
   {
@@ -12,8 +12,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/haiku-app/static/js/2.3a2ba5f9.chunk.js"
   },
   {
-    "revision": "77e5873100c10ac3aeea",
-    "url": "/haiku-app/static/js/main.b1185213.chunk.js"
+    "revision": "4031e545b9d2fcea4e27",
+    "url": "/haiku-app/static/js/main.92020091.chunk.js"
   },
   {
     "revision": "4e92dfa72c60425c598c",

@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/haiku-app/static/css/main.3dacd661.chunk.css",
-    "main.js": "/haiku-app/static/js/main.b1185213.chunk.js",
-    "main.js.map": "/haiku-app/static/js/main.b1185213.chunk.js.map",
+    "main.js": "/haiku-app/static/js/main.92020091.chunk.js",
+    "main.js.map": "/haiku-app/static/js/main.92020091.chunk.js.map",
     "runtime~main.js": "/haiku-app/static/js/runtime~main.559ab48e.js",
     "runtime~main.js.map": "/haiku-app/static/js/runtime~main.559ab48e.js.map",
     "static/js/2.3a2ba5f9.chunk.js": "/haiku-app/static/js/2.3a2ba5f9.chunk.js",
     "static/js/2.3a2ba5f9.chunk.js.map": "/haiku-app/static/js/2.3a2ba5f9.chunk.js.map",
     "index.html": "/haiku-app/index.html",
-    "precache-manifest.5898b66ac3e393898f456e06c82b8c10.js": "/haiku-app/precache-manifest.5898b66ac3e393898f456e06c82b8c10.js",
+    "precache-manifest.3bad9e5687a7009a614058b4b9b61d30.js": "/haiku-app/precache-manifest.3bad9e5687a7009a614058b4b9b61d30.js",
     "service-worker.js": "/haiku-app/service-worker.js",
     "static/css/main.3dacd661.chunk.css.map": "/haiku-app/static/css/main.3dacd661.chunk.css.map",
     "static/media/HaikuLine.css": "/haiku-app/static/media/Smackover.e2de676c.ttf",
