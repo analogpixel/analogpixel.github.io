@@ -34,7 +34,7 @@ function setup() {
 
 function newBox() {
     var box = world.createBody().setDynamic();
-    box.createFixture(pl.Box(0,0));
+    box.createFixture(pl.Box(50,40));
     m = Math.floor(Math.random()*2) == 1 ? 1 : -1;
     box.applyForce( planck.Vec2(m*random(430),m*random(900)), planck.Vec2(0,0) );
      box.setAngularVelocity(m*random(90),m*random(90));
@@ -70,6 +70,6 @@ function keyPressed() {
 }
 
 function draw() {
-  background(90,30);
+  background(90,3);
   updateFixtures();
 }
