@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Menu Maker</title>
+    <style>
+
+      body {
+        margin: 0;
+        padding: 0;
+      }
+
+      .content_wrapper {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        justify-content: center;
+      }
+
+      .col_content {
+        text-align: center;
+          font-size: 2em;
+      }
+
+      .lock {
+        text-align: center;
+          font-size: 1em;
+      }
+
+      .wrapper {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+          width: 100wh;
+      }
+
+      .wrapper > * {
+        flex-grow: 1;
+      }
+
+      .page-main {
+        flex-grow: 1;
+      }
+
+      .col-content {
+        display: flex;
+        flex-direction: row;
+        min-width: 100vw;
+        flex-wrap: nowrap;
+        color: rgb(20,20,20);
+          text-transform: capitalize;
+      }
+
+      .col-item {
+        background-color: rgb(200,200,200);
+          flex-grow: 1;
+            border-left: 1px solid black;
+              padding: 10px;
+                height: 95vh;
+      }
+
+
+    </style>
+    <script src="jquery-3.3.1.min.js"></script>
+    <script src="menu.js"></script>
+  </head>
+  <body>
+      <div class="wrapper">
+        <header class="page-header">
+        A simple app to come up with dinner ideas.  Use spacebar to spin the wheel of random, and
+        click on a column to lock it from changing. Type 'g' to search google for the current set
+        of selections.
+      </header>
+      <main class="page-main">
+        <div id=content-section class=col-content>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>
