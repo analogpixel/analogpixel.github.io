@@ -1,7 +1,5 @@
 
-// make the height an even number
-tsize = (2/Math.sqrt(3)) * 20;
-
+tsize=20;
 rr = 0;
 var grid1;
 var grid2;
